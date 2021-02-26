@@ -1,3 +1,4 @@
-# Werkdocument datastation specificatie
-In deze map staan de bestanden die samen het werkdocument vormen van de specificatie voor een datastation.
-Het werkdocument is op het volgende adres gepubliceerd: https://kik-v.github.io/datastation/
+# Inleiding
+
+Dit is een template voor het in Mark Down publiceren van KIK-V documenten met technische specificaties.
+
