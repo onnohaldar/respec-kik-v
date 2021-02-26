@@ -5,7 +5,7 @@
 /**
  * Node Package Imports
  */
-import {} 'fs';
+import {  } 'fs';
 
 /**
  * Local Library Imports
