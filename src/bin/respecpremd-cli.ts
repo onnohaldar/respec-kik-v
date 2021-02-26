@@ -10,6 +10,7 @@ import * as Colors from 'colors';
 /**
  * CLI Library Modules
  */
+import { parseMd2ResPec } from '../lib'
 
 /**
  * colors constant that is used for console.log()
@@ -21,10 +22,9 @@ const colors = Colors;
 // START CLI Script
 //
 
-if (!argv[4] || argv[5]) {
+if (argv[4] || !argv[5]) {
+    parseMd2ResPec(argv[2], argv[3], argv[4]);
+} else {
     console.error('excact 3 parms needed: mdContentPath, resPecTemplatePath, resPecOutputPath');
 }
-
-
-console.log(`KIK-V - ${command} ${parms}`.bgRed.yellow.bold);
 
