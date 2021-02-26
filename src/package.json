@@ -35,6 +35,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "cpx": "^1.5.0",
-    "markdown-json": "^1.5.1"
+    "markdown-json": "^1.5.1",
+    "jdown": "^1.0.5"
   }
 }

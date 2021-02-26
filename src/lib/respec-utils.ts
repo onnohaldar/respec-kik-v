@@ -6,7 +6,7 @@
  * Node Package Imports
  */
 import { readFileSync, writeFileSync } from 'fs';
-const markdownJson = require('markdown-json');
+const jdown = require('jdown');
 import { copySync } from 'cpx';
 
 /**
@@ -18,23 +18,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     // init ResPec output with template to parse
     copySync(`${resPecTemplatePath}/**/*`, resPecOutputPath);
     
-    // parse md content
-    const settings = {
-        name: 'markdown-json',
-      	cwd: './',
-      	src: mdContentPath,
-        filePattern: '**/*.md',
-        ignore: "*(icon|input)*",
-//        dist: 'output/',
-        metadata: true,
-        server: false,
-//        port: 3001
-    };
+    jdown(mdContentPath).then(content => console.log(content));
 
-    markdownJson(settings).then((data) => {
-        console.log('data:', data);
-    }).catch((err) => {
-        console.log('error:', err);
-    })
 
 }
