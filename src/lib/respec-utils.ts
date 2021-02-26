@@ -5,7 +5,8 @@
 /**
  * Node Package Imports
  */
-import {  } 'fs';
+import { readFileSync, writeFileSync } from 'fs';
+import * as markdownJson from 'markdown-json';
 
 /**
  * Local Library Imports
