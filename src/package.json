@@ -33,7 +33,8 @@
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "markdown-json": "^1.5.1",
-    "cpx": "^1.5.0"
+    "colors": "^1.4.0",
+    "cpx": "^1.5.0",
+    "markdown-json": "^1.5.1"
   }
 }
