@@ -6,11 +6,11 @@
     "build": "npm run build:lib && npm run build:cli",
     "build:cli": "tsc -p ts-cli-config.json",
     "build:lib": "rollup -c",
-    "test": "ts-node -P ts-node-config.json bin/fuseki-cli.ts ../template test test-output"
+    "test": "ts-node -P ts-node-config.json bin/respecmd-cli.ts ../template test test-output"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dgwnu/fuseki-cli.git"
+    "url": "git+https://github.com/onnohaldar/respec-kik-v.git"
   },
   "keywords": [
     "fuseki",
@@ -21,9 +21,9 @@
   "author": "Onno Haldar <onno@haldar.nl>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dgwnu/fuseki-cli/issues"
+    "url": "https://github.com/onnohaldar/respec-kik-v/issues"
   },
-  "homepage": "https://github.com/dgwnu/fuseki-clis#readme",
+  "homepage": "https://github.com/onnohaldar/respec-kik-v#readme",
   "devDependencies": {
     "@types/cpx": "^1.5.1",
     "@types/node": "^14.14.31",
