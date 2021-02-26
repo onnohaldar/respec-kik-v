@@ -15,6 +15,9 @@ import { copySync } from 'cpx';
 
 
 export function parseMd2ResPec(mdContentPath: string, resPecTemplatePath: string, resPecOutputPath: string) {
-    copySync(`${mdContentPath}/**/*`, resPecOutputPath);
+    // init ResPec output with template to parse
+    copySync(`${resPecTemplatePath}/**/*`, resPecOutputPath);
+    // read html template
+    
 
 }
