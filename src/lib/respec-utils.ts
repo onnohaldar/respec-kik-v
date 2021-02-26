@@ -6,7 +6,7 @@
  * Node Package Imports
  */
 import { readFileSync, writeFileSync } from 'fs';
-import * as markdownJson from 'markdown-json';
+const markdownJson = require('markdown-json');
 import { copySync } from 'cpx';
 
 /**
@@ -22,13 +22,13 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     const settings = {
         name: 'markdown-json',
       	cwd: './',
-      	src: 'test/',
+      	src: mdContentPath,
         filePattern: '**/*.md',
         ignore: "*(icon|input)*",
-        dist: 'output/output.json',
+//        dist: 'output/',
         metadata: true,
         server: false,
-        port: 3001
+//        port: 3001
     };
 
     markdownJson(settings).then((data) => {
