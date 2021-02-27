@@ -14,6 +14,7 @@ import { copySync } from 'cpx';
  * Local Library Imports
  */
 
+const ABSTRACT_MD = 'ABSTRACT.md'; 
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
     // init ResPec output with template to parse
@@ -24,16 +25,19 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     let parsedHtmlIndexStr = readFileSync(outputHtmlIndexFilePath, 'utf-8');
 
     // read content to parse
-    const abstractMdStr = readFileSync(join(mdContentPath, 'ABSCTRACT.md'), 'utf-8');
+    const abstractMdStr = readFileSync(join(mdContentPath, ABSTRACT_MD), 'utf-8');
     const summaryMdStr = readFileSync(join(mdContentPath, 'SUMMARY.md'), 'utf-8');
     const conformanceMdStr = readFileSync(join(mdContentPath, 'CONFORMANCE.md'), 'utf-8');
 
     // parse content
-    const parsedAbstractStr = abstractMdStr.split('/n');
-    console.log('parsedAbstractStr =');
-    console.log(parsedAbstractStr);
+    // remove header from abstract
+    const parsedAbstractStr = abstractMdStr
+        .split('\n')
+            .filter(mdLine => !mdLine.startsWith('#'))
+                .join('\n');
 
     // write parsed content
+    writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
     writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr);
 
 
