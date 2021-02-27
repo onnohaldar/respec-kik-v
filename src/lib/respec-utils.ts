@@ -6,7 +6,8 @@
  * Node Package Imports
  */
 import { readFileSync, writeFileSync } from 'fs';
-const jdown = require('jdown');
+//const jdown = require('jdown');
+import jdown from 'jdown';
 import { copySync } from 'cpx';
 
 /**
@@ -18,7 +19,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     // init ResPec output with template to parse
     copySync(`${resPecTemplatePath}/**/*`, resPecOutputPath);
     
-    jdown(mdContentPath).then(content => console.log(content));
+    jdown(mdContentPath, {  }).then(content => console.log(content));
 
 
 }
