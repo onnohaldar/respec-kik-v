@@ -51,9 +51,10 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     const parsedAbstractStr = removeMdHeader(abstractMdStr);
     const parsedConformanceStr = removeMdHeader(conformanceMdStr);
 
-    // assamble string with (sub)sections
-    let sections = '';
-    let lineNr = 0;
+    // assemble (sub)sections from summary
+    // and process ResPec requirements for Mark Down content
+    let sectionsHtml = '';
+    let summaryLineNr = 0;
 
     for (const summaryLine of summaryLines) {
         // extract data from content
@@ -61,19 +62,19 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         const sectionId = extractSectionId(summaryLine);
         const dataInclude = extractDataInclude(summaryLine);
         // generate new HTML section
-        sections += parseSection(sectionLevel, sectionId, dataInclude);
+        sectionsHtml += parseSection(sectionLevel, sectionId, dataInclude);
         // read Mark Down Content from input directory
         let mdContentStr = readFileSync(join(mdContentPath, dataInclude), 'utf-8');
 
-        if (lineNr == 0 || lineNr == summaryLines.length - 1) {
+        if (summaryLineNr == 0 || summaryLineNr == summaryLines.length - 1) {
             // Abstract and Conformance Mark Dow must be without Headers (already supplied by ResPec)
             mdContentStr = removeMdHeader(mdContentStr);
         }
 
         // write Mark Down Content to output directory
         writeFileSync(join(resPecOutputPath, dataInclude), mdContentStr);
-        // increment line number
-        lineNr ++;
+        // next summary line to process
+        summaryLineNr ++;
     }
 
     console.log(sections);
