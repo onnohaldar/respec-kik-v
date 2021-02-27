@@ -15,6 +15,8 @@ import { copySync } from 'cpx';
  */
 
 const ABSTRACT_MD = 'ABSTRACT.md'; 
+const SUMMARY_MD = 'SUMMARY.md';
+const CONFORMANCE_MD = 'CONFORMANCE.md'
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
     // init ResPec output with template to parse
@@ -26,8 +28,8 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     // read content to parse
     const abstractMdStr = readFileSync(join(mdContentPath, ABSTRACT_MD), 'utf-8');
-    const summaryMdStr = readFileSync(join(mdContentPath, 'SUMMARY.md'), 'utf-8');
-    const conformanceMdStr = readFileSync(join(mdContentPath, 'CONFORMANCE.md'), 'utf-8');
+    const summaryMdStr = readFileSync(join(mdContentPath, SUMMARY_MD), 'utf-8');
+    const conformanceMdStr = readFileSync(join(mdContentPath, CONFORMANCE_MD), 'utf-8');
 
     // parse content
     // remove header from abstract
