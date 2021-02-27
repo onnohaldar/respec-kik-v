@@ -37,21 +37,36 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     const parsedAbstractStr = removeMdHeader(abstractMdStr);
     const parsedConformanceStr = removeMdHeader(conformanceMdStr);
 
+    // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
+
+    // assamble string with (sub)sections
+    let sections = '';
 
     for (const summaryLine of summaryLines) {
         console.log(summaryLine);
-        let htmlHeaderLevel = 2;
+        let sectionLevel = 2;
         let summaryLineIndent = SUMMARY_IDENT;
 
         while (summaryLine.startsWith(summaryLineIndent)) {
-            htmlHeaderLevel ++;
+            sectionLevel ++;
             summaryLineIndent += SUMMARY_IDENT;
         }
 
-        console.log('htmlHeaderLevel =', htmlHeaderLevel);
-
+        // Mark Down link description is between [...]
+        const sectionId = summaryLine.split('[')[1].split(']')[0];
+        // Mark Down reference link is between (...)
+        const dataInclude = summaryLine.split('(')[1].split(')')[0];
+        // Parse Mark Down Values in Template String
+        sections += `
+        <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
+            <h${sectionLevel}></h${sectionLevel}>
+            <! -- W3C Required Abstract Section -->
+        </section>
+        `;
     }
+
+    console.log(sections);
     
     // write parsed content
     writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
