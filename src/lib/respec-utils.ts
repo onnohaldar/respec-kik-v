@@ -5,8 +5,8 @@
 /**
  * Node Package Imports
  */
-import { readFileSync, writeFileSync } from 'fs';
-import { default as marked } from 'marked';
+//import { readFileSync, writeFileSync } from 'fs';
+//import { default as marked } from 'marked';
 import { copySync } from 'cpx';
 
 /**
@@ -17,7 +17,7 @@ import { copySync } from 'cpx';
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
     // init ResPec output with template to parse
     copySync(`${resPecTemplatePath}/**/*`, resPecOutputPath);
-
+    console.log(mdContentPath);
 
 
 }
