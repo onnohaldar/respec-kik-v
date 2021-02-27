@@ -16,7 +16,7 @@ import { copySync } from 'cpx';
 
 const ABSTRACT_MD = 'ABSTRACT.md'; 
 const SUMMARY_MD = 'SUMMARY.md';
-const SUMMARY_IDENT = '  ';
+const IDENT_NR = 2;
 const CONFORMANCE_MD = 'CONFORMANCE.md';
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
@@ -66,18 +66,15 @@ function removeMdHeader(mdFileStr: string) {
 }
 
 function parseSection(summaryLine: string) {
+    // calculate section level
     let sectionLevel = 2;
-    let summaryLineIndent = SUMMARY_IDENT;
+    const levelIdentSpace = ' '.repeat(IDENT_NR);
+    let summaryLineIndent = levelIdentSpace;
 
     while (summaryLine.startsWith(summaryLineIndent)) {
         sectionLevel ++;
-            summaryLineIndent += SUMMARY_IDENT;
+            summaryLineIndent += levelIdentSpace;
     }
-
-    // Mark Down link description is between [...]
-    const sectionId = extractSectionId(summaryLine);
-    // Mark Down reference link is between (...)
-    const dataInclude = extractDataInclude(summaryLine);
 
     // Parse Mark Down Values in HTML Template String
     return `
