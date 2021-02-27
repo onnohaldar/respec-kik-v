@@ -42,28 +42,12 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     // assamble string with (sub)sections
     let sections = '';
+    let hasAbstract = false;
+    let hasConformance = false;
 
     for (const summaryLine of summaryLines) {
         console.log(summaryLine);
-        let sectionLevel = 2;
-        let summaryLineIndent = SUMMARY_IDENT;
-
-        while (summaryLine.startsWith(summaryLineIndent)) {
-            sectionLevel ++;
-            summaryLineIndent += SUMMARY_IDENT;
-        }
-
-        // Mark Down link description is between [...]
-        const sectionId = summaryLine.split('[')[1].split(']')[0];
-        // Mark Down reference link is between (...)
-        const dataInclude = summaryLine.split('(')[1].split(')')[0];
-        // Parse Mark Down Values in Template String
-        sections += `
-        <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
-            <h${sectionLevel}></h${sectionLevel}>
-            <! -- W3C Required Abstract Section -->
-        </section>
-        `;
+        
     }
 
     console.log(sections);
@@ -80,4 +64,27 @@ function removeMdHeader(mdFileStr: string) {
     return mdFileStr.split('\n')
         .filter(mdLine => !mdLine.startsWith('# '))
             .join('\n');
+}
+
+function parseSection(summaryLine) {
+    let sectionLevel = 2;
+    let summaryLineIndent = SUMMARY_IDENT;
+
+    while (summaryLine.startsWith(summaryLineIndent)) {
+        sectionLevel ++;
+            summaryLineIndent += SUMMARY_IDENT;
+    }
+
+    // Mark Down link description is between [...]
+    const sectionId = summaryLine.split('[')[1].split(']')[0];
+    // Mark Down reference link is between (...)
+    const dataInclude = summaryLine.split('(')[1].split(')')[0];
+
+    // Parse Mark Down Values in HTML Template String
+    return `
+    <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
+        <h${sectionLevel}></h${sectionLevel}>
+        <! -- Section Genereated by ResPecMd CLI see https://github.com/onnohaldar/respec-tools -->
+    </section>
+    `;
 }
