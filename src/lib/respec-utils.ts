@@ -41,7 +41,9 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
 
     const abstractLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'abstract');
-    console.log('abstractLineNr', abstractLineNr);
+    if (abstractLineNr == -1) {
+        throw new Error('SUMMARY.md does not start with a "abstract" section!');
+    }
 
     const conformanceLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'conformance');
     console.log('conformanceLineNr', conformanceLineNr);
