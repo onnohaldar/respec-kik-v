@@ -40,10 +40,10 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
 
+
+
     // assamble string with (sub)sections
     let sections = '';
-    let hasAbstract = false;
-    let hasConformance = false;
 
     for (const summaryLine of summaryLines) {
         sections += parseSection(summaryLine);
@@ -86,9 +86,13 @@ function parseSection(summaryLine: string) {
 }
 
 function extractSectionId(summaryLine: string) {
-    return summaryLine.split('[')[1].split(']')[0].toLowerCase();
+    return extractData(summaryLine, '[', ']').toLowerCase();
 }
 
 function extractDataInclude(summaryLine: string) {
-    return summaryLine.split('(')[1].split(')')[0];
+    return extractData(summaryLine, '(', ')');
+}
+
+function extractData(content: string, startId: string, endId: string) {
+    return content.split(startId)[1].split(endId)[0];
 }
