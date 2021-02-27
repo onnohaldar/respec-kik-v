@@ -1,74 +1,88 @@
-# Fuseki CLI [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+# ResPec Tools [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Fuseki is a populair SPARQL / Triplestore implementation in Java that is simple and robust to use. See [Jena Apache Jena Fuseki documentation](https://jena.apache.org/documentation/fuseki2/index.html) for more info. The Fuseki CLI is a build as a __TypeScript__ based _wrapper_ to use and support the services that are provided from the Open Source version.
-  
-## Jena Fuseki Server Dependencies
-
-This pre-release only supports a local Jena Fuseki Service as a peer depedency for this package. See for info how to install and use: [@dgwnu/fuseki-service](https://github.com/dgwnu/fuseki-service).  
-_Other server installations could work but are not tested (or in scope). Hint: Any localhost installation should work like HomeBrew but there might be some authorization issues to resolve in "shiro.ini"_
+Tools to help parse _Mark Down_ and other __ResPec-template__ reuse helpers. Based on a ResPec builded templates [see ResPec developers guide](https://github.com/w3c/respec/wiki/Developers-Guide).
 
 ## NPM installation
 
-````
-npm install https://github.com/dgwnu/fuseki-cli.git --save
-````
-
-## CLI-commands
-
-At this moment there is only some prelimannary support to configure and use Fuseki-services Api.
-
-### Services
-
-````
-npx fuseki < ping | server >
+````shell
+npm install https://github.com/onnohaldar/respec-tools.git --save
 ````
 
-| Command | Function |
-|---------|:------------|
-| ping | Fuseki Server is Up or Down status check |
-| server | Fuseki Server Configuration |
+## respecmd-CLI
 
-### Datasets
+CLI to parse Content into Mark Down based ResPec-templates.
 
-````
-npx fuseki datasets <parameters>
-````
+### Pre-conditions Mark Down Content
 
-| Parameters | Function |
-|:------------|:------------|
-| (<_datasetName_>) | Gets configuration of all datasets (or one specified by <_datasetName_>) |
-| _-a_ (or _-add_) <_assemblerFilePath_> | Add dataset with <_assemblerFilePath_> configuration |
-| _-r_ (or _-remove_) <_datasetName_> | Remove dataset specified by <_datasetName_>
+The next _Mark Down_ files should be available in the _input folder_:
+- ABSTRACT(.md) file with _ResPec_ required abstract text
+- SUMMARY(.md) file with _GitBook_ like content linking structure
+- CONFORMANCE(.md) with _ResPec_ required conformance text
 
-### GraphStore Data Management
-````
-npx fuseki < put | post > <datasetName> <uploadFilePath>
-````
-Parameters must always be specified:  
-- <__datasetName__> the dataset to update
-- <__uploadFilePath__> the location of data file to upload   
+### Pre-conditions ResPec Template
 
-| Command | Function |
-|---------|:------------|
-| put | Replace all with new data |
-| post | Update (non-blank) nodes with new data (and add non-exsiting) |
-_Other commands with other Service functionality will be added soon (in 2021 ;-))._
-
-## CLI-library
-
-This package provides a __TypeScript__ based library to reuse and /or extend the CLI-functionality.  
+The ResPec Template should contain
   
-Import library in your TypeScript-application and use it to make extended functionality:
++- __index.html__ = _required_  
+|  
++- __assets/__ = _not required (template-assets)_  
+|  
++- __respec/__ = _required ResPec Profile (.js and .map)_
 
-````ts
-import { ping } from '@dgwnu/fuseki-cli';
+The rquired __index.html__ should contain:
 
-// Use Fuseki Server Ping Service
-ping.subscribe({
-    next: (up) => console.log(up),
-    error: (down) => console.log(down)
-});
+```html
+<!DOCTYPE html>
+<html lang="(...)">
+<head>
+  <meta charset="utf-8">
+  <title>...</title>
+  <script src="./respec/respec-(...).js" async class="remove"></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+      format: "markdown",
+      maxTocLevel: (...),
+    };
+  </script>
+</head>
+<body>
+  <section id="abstract" data-format="markdown" data-include="ABSTRACT.md">
+       <! -- W3C Required Abstract Section -->
+  </section>
 
+  <! -- Content to Parse as Mark Down Include -->
+  <=% parsedContent %>
+
+  <section id="conformance"data-format="markdown" data-include="CONFORMANCE.md">
+      <! -- W3C Required Conformance Section -->
+  </section>
+</body>
+</html>
+```
+
+Notes:
+
+- __(...)__ is required to fill with custom content
+- __<=% parsedContent %>__ the placeholder where the includes for the Mark Down Content while be filled by the CLI
+  
+Also see example template [index.html](template/index.html)
+
+
+
+### Command Line
+
+Run CLI using NPX:
+
+````bash
+npx respecmd <template path> <content path> <output path>
 ````
 
-The [Fuseki CLI source](src/bin/fuseki-cli.ts) provides all examples you need.
+Or as a script in "package.json".
+
+| Parm | Description |
+|---------|:------------|
+| template path | ResPec HTML template directory |
+| content path | Mark Down Content directory |
+| output path | ResPec HTML distribution path |
+
