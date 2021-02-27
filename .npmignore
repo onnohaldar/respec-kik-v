@@ -1,3 +1,4 @@
 src/
 ts-*.json
 rollup.config.js
+SETUP.md
