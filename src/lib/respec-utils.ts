@@ -82,14 +82,21 @@ function removeMdHeader(mdFileStr: string) {
             .join('\n');
 }
 
+/**
+ * <section id="inleiding" data-format="markdown" data-include="README.md"><h2></h2></section>
+ * @param sectionLevel 
+ * @param sectionId 
+ * @param dataInclude 
+ */
 function parseSection(sectionLevel: number, sectionId: string, dataInclude: string) {
     // Parse Mark Down Values in HTML Template String
-    return `
-    <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
-        <h${sectionLevel}></h${sectionLevel}>
-        <! -- Section Genereated by ResPecMd CLI see https://github.com/onnohaldar/respec-tools -->
-    </section>
-    `;
+
+    if (sectionId == 'abstract' || sectionId == 'conformance') {
+        return `<section id="${sectionId}"><div data-format="markdown" data-include=""${dataInclude}"></div></section>\n`;
+    } else {
+        return `<section data-format="markdown" data-include="${dataInclude}"><h${sectionLevel}></h${sectionLevel}></section>\n`;
+    }
+
 }
 
 function extractSectionLevel(summaryLine: string) {
