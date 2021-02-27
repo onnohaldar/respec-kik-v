@@ -42,7 +42,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     const abstractLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'abstract');
     if (abstractLineNr == -1) {
-        throw new Error('SUMMARY.md does not start with a "abstract" section!');
+        throw new Error('ResPec - SUMMARY.md must start with a "* [Abstract](file path to ABSTRACT.md)" Section!');
     }
 
     const conformanceLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'conformance');
