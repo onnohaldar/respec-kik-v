@@ -8,16 +8,29 @@ Tools to help parse _Mark Down_ and other __ResPec-template__ reuse helpers. Bas
 npm install https://github.com/onnohaldar/respec-tools.git --save
 ````
 
-## respecmd-CLI
+## ResPecMd CLI
 
 CLI to parse Content into Mark Down based ResPec-templates.
 
 ### Pre-conditions Mark Down Content
 
 The next _Mark Down_ files should be available in the _input folder_:
-- ABSTRACT(.md) file with _ResPec_ required abstract text
-- SUMMARY(.md) file with _GitBook_ like content linking structure with only one level
-- CONFORMANCE(.md) with _ResPec_ required conformance text
+
+- a ```(ABSTRACT).md``` file with _ResPec_ required abstract text
+
+- a ```SUMMARY.md``` file with _GitBook_ like content but with only one level and starting with "[Abstract]" and ending with "[Conformance]" (required by ResPec)
+
+```markdown
+# Summary
+
+* [Abstract](ABSTRACT.md)
+* [Inleiding](README.md)
+* [Stap I](STAP1.md)
+* [Stap II](STAP2.md)
+* [Conformance](CONFORMANCE.md)
+```
+
+- a ```CONFORMANCE(.md)``` with _ResPec_ required conformance text
 
 ### Pre-conditions ResPec Template
 
@@ -25,7 +38,7 @@ The ResPec Template should contain
   
 +- __index.html__ = _required_  
 |  
-+- __assets/__ = _not required (template-assets)_  
++- assets/ = _not required (template-assets)_  
 |  
 +- __respec/__ = _required ResPec Profile (.js and .map)_
 
@@ -73,7 +86,7 @@ Or as a script in "package.json".
 
 | Parm | Description |
 |---------|:------------|
-| template path | ResPec HTML template directory |
-| content path | Mark Down Content directory |
-| output path | ResPec HTML distribution path |
+| ```<template path>``` | ResPec HTML template directory |
+| ```<content path>``` | Mark Down Content directory |
+| ```<output path>``` | ResPec HTML distribution path |
 
