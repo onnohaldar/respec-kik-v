@@ -92,7 +92,7 @@ function parseSection(sectionLevel: number, sectionId: string, dataInclude: stri
     // Parse Mark Down Values in HTML Template String
 
     if (sectionId == 'abstract' || sectionId == 'conformance') {
-        return `<section id="${sectionId}"><div data-format="markdown" data-include=""${dataInclude}"></div></section>\n`;
+        return `<section id="${sectionId}"><div data-format="markdown" data-include="${dataInclude}"></div></section>\n`;
     } else {
         return `<section data-format="markdown" data-include="${dataInclude}"><h${sectionLevel}></h${sectionLevel}></section>\n`;
     }
