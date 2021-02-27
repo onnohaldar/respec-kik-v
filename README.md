@@ -16,7 +16,7 @@ CLI to parse Content into Mark Down based ResPec-templates.
 
 The next _Mark Down_ files should be available in the _input folder_:
 - ABSTRACT(.md) file with _ResPec_ required abstract text
-- SUMMARY(.md) file with _GitBook_ like content linking structure
+- SUMMARY(.md) file with _GitBook_ like content linking structure with only one level
 - CONFORMANCE(.md) with _ResPec_ required conformance text
 
 ### Pre-conditions ResPec Template
@@ -47,16 +47,7 @@ The rquired __index.html__ should contain:
   </script>
 </head>
 <body>
-  <section id="abstract" data-format="markdown" data-include="ABSTRACT.md">
-       <! -- W3C Required Abstract Section -->
-  </section>
-
-  <! -- Content to Parse as Mark Down Include -->
-  <=% mdContentInclude %>
-
-  <section id="conformance"data-format="markdown" data-include="CONFORMANCE.md">
-      <! -- W3C Required Conformance Section -->
-  </section>
+  <=% mdSections %>
 </body>
 </html>
 ```
@@ -64,9 +55,9 @@ The rquired __index.html__ should contain:
 Notes:
 
 - __(...)__ is required to fill with custom content
-- __<=% parsedContent %>__ the placeholder where the includes for the Mark Down Content while be filled by the CLI
+- __<=% mdSections %>__ the placeholder where the CLI will parse the sections to include the Mark Down file content 
   
-Also see example template [index.html](template/index.html)
+See also example template [index.html](template/index.html)
 
 
 
