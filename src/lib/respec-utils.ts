@@ -11,11 +11,9 @@ import { join } from 'path';
 import { copySync } from 'cpx';
 
 /**
- * Local Library Imports
+ * Constant Values
  */
- 
 const SUMMARY_MD = 'SUMMARY.md';
-const IDENT_NR = 2;
 const MD_SECTIONS_TEMPLATE = '<=% mdSections %>';
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
