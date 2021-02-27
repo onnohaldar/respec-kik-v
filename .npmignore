@@ -1,1 +1,3 @@
 src/
+ts-*.json
+rollup.config.js
