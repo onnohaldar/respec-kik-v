@@ -40,7 +40,8 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
 
-
+    const abstractLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'abstract');
+    console.log('abstractLineNr', abstractLineNr);
 
     // assamble string with (sub)sections
     let sections = '';
