@@ -1,29 +1,13 @@
 {
-  "name": "respec-kik-v-dev",
-  "version": "0.1.0",
-  "description": "ResPec template compiler for Markdown Content application development in TypeScript",
+  "name": "respec-tools-dev",
+  "version": "0.9.0",
+  "description": "ResPec Tools to parse and reuse templates etc. CLI development in TypeScript",
   "scripts": {
     "build": "npm run build:lib && npm run build:cli",
     "build:cli": "tsc -p ts-cli-config.json",
     "build:lib": "rollup -c",
     "test": "ts-node -P ts-node-config.json bin/respecmd-cli.ts ../template test-input test-output"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/onnohaldar/respec-kik-v.git"
-  },
-  "keywords": [
-    "fuseki",
-    "cli",
-    "development",
-    "typescript"
-  ],
-  "author": "Onno Haldar <onno@haldar.nl>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/onnohaldar/respec-kik-v/issues"
-  },
-  "homepage": "https://github.com/onnohaldar/respec-kik-v#readme",
   "devDependencies": {
     "@types/cpx": "^1.5.1",
     "@types/node": "^14.14.31",
@@ -34,7 +18,6 @@
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "colors": "^1.4.0",
     "cpx": "^1.5.0",
     "marked": "^2.0.1"
   }

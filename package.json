@@ -1,7 +1,7 @@
 {
-  "name": "respec-kik-v",
+  "name": "respec-tools",
   "version": "0.1.0",
-  "description": "ResPec template compilet for Markdown Content",
+  "description": "ResPec Tools to parse and reuse templates etc.",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.esm.js",
   "bin": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/onnohaldar/respec-kik-v.git"
+    "url": "git+https://github.com/onnohaldar/respec-tools.git"
   },
   "keywords": [
     "fuseki",
@@ -19,9 +19,26 @@
   "author": "Onno Haldar <onno@haldar.nl>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/onnohaldar/respec-kik-v/issues"
+    "url": "https://github.com/onnohaldar/respec-tool/issues"
   },
-  "homepage": "https://github.com/onnohaldar/respec-kik-v#readme",
+  "homepage": "https://github.com/onnohaldar/respec-tool#readme",
+  "scripts": {
+    "build": "npm run build:lib && npm run build:cli",
+    "build:cli": "tsc -p ts-cli-config.json",
+    "build:lib": "rollup -c",
+    "test": "ts-node -P src/ts-node-config.json src/bin/respecmd-cli.ts template test-input test-output"
+  },
+  "devDependencies": {
+    "@types/cpx": "^1.5.1",
+    "@types/node": "^14.14.31",
+    "@types/marked": "~1.2.2",
+    "rollup": "^2.40.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.2"
+  },
   "dependencies": {
+    "cpx": "^1.5.0",
+    "marked": "^2.0.1"
   }
 }
