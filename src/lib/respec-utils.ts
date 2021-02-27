@@ -43,6 +43,9 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     const abstractLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'abstract');
     console.log('abstractLineNr', abstractLineNr);
 
+    const conformanceLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'conformance');
+    console.log('conformanceLineNr', conformanceLineNr);
+
     // assamble string with (sub)sections
     let sections = '';
 
