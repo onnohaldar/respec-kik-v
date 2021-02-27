@@ -13,11 +13,10 @@ import { copySync } from 'cpx';
 /**
  * Local Library Imports
  */
-
-const ABSTRACT_MD = 'ABSTRACT.md'; 
+ 
 const SUMMARY_MD = 'SUMMARY.md';
 const IDENT_NR = 2;
-const CONFORMANCE_MD = 'CONFORMANCE.md';
+const MD_SECTIONS_TEMPLATE = '<=% mdSections %>';
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
     // init ResPec output with template to parse
@@ -47,7 +46,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     // assemble (sub)sections from summary
     // and process ResPec requirements for Mark Down content
-    let sectionsHtml = '';
+    let mdSections = '';
     let summaryLineNr = 0;
 
     for (const summaryLine of summaryLines) {
@@ -56,7 +55,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         const sectionId = extractSectionId(summaryLine);
         const dataInclude = extractDataInclude(summaryLine);
         // generate new HTML section
-        sectionsHtml += parseSection(sectionLevel, sectionId, dataInclude);
+        mdSections += parseSection(sectionLevel, sectionId, dataInclude);
         // read Mark Down Content from input directory
         let mdContentStr = readFileSync(join(mdContentPath, dataInclude), 'utf-8');
 
@@ -71,10 +70,10 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         summaryLineNr ++;
     }
 
-    console.log(sectionsHtml);
+    console.log(mdSections);
     
     // write parsed content in template to output directory
-    writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr.replace());
+    writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr.replace(MD_SECTIONS_TEMPLATE, mdSections));
 }
 
 function removeMdHeader(mdFileStr: string) {
