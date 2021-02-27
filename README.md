@@ -52,7 +52,7 @@ The rquired __index.html__ should contain:
   </section>
 
   <! -- Content to Parse as Mark Down Include -->
-  <=% parsedContent %>
+  <=% mdContentInclude %>
 
   <section id="conformance"data-format="markdown" data-include="CONFORMANCE.md">
       <! -- W3C Required Conformance Section -->
