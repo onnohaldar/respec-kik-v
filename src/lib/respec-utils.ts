@@ -51,11 +51,10 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     for (const summaryLine of summaryLines) {
         // extract data from content
-        const sectionLevel = extractSectionLevel(summaryLine);
         const sectionId = extractSectionId(summaryLine);
         const dataInclude = extractDataInclude(summaryLine);
         // generate new HTML section
-        mdSections += parseSection(sectionLevel, sectionId, dataInclude);
+        mdSections += parseSection(sectionId, dataInclude);
         // read Mark Down Content from input directory
         let mdContentStr = readFileSync(join(mdContentPath, dataInclude), 'utf-8');
 
@@ -69,8 +68,6 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         // next summary line to process
         summaryLineNr ++;
     }
-
-    console.log(mdSections);
     
     // write parsed content in template to output directory
     writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr.replace(MD_SECTIONS_TEMPLATE, mdSections));
@@ -88,29 +85,15 @@ function removeMdHeader(mdFileStr: string) {
  * @param sectionId 
  * @param dataInclude 
  */
-function parseSection(sectionLevel: number, sectionId: string, dataInclude: string) {
+function parseSection(sectionId: string, dataInclude: string) {
     // Parse Mark Down Values in HTML Template String
 
     if (sectionId == 'abstract' || sectionId == 'conformance') {
         return `<section id="${sectionId}"><div data-format="markdown" data-include="${dataInclude}"></div></section>\n`;
     } else {
-        return `<section data-format="markdown" data-include="${dataInclude}"><h${sectionLevel}></h${sectionLevel}></section>\n`;
+        return `<section data-format="markdown" data-include="${dataInclude}"><h2></h2></section>\n`;
     }
 
-}
-
-function extractSectionLevel(summaryLine: string) {
-    // calculate section level
-    let sectionLevel = 2;
-    const levelIdentSpace = ' '.repeat(IDENT_NR);
-    let summaryLineIndent = levelIdentSpace;
-
-    while (summaryLine.startsWith(summaryLineIndent)) {
-        sectionLevel ++;
-            summaryLineIndent += levelIdentSpace;
-    }
-
-    return sectionLevel;
 }
 
 function extractSectionId(summaryLine: string) {
