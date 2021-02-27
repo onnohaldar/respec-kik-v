@@ -16,7 +16,7 @@ import { copySync } from 'cpx';
 
 const ABSTRACT_MD = 'ABSTRACT.md'; 
 const SUMMARY_MD = 'SUMMARY.md';
-const CONFORMANCE_MD = 'CONFORMANCE.md'
+const CONFORMANCE_MD = 'CONFORMANCE.md';
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
     // init ResPec output with template to parse
@@ -33,9 +33,9 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     // parse content
     // remove header from abstract
-    const parsedAbstractStr = removeMdHeaders(abstractMdStr);
+    const parsedAbstractStr = removeMdHeader(abstractMdStr);
 
-    const parsedConformanceStr = removeMdHeaders(conformanceMdStr);
+    const parsedConformanceStr = removeMdHeader(conformanceMdStr);
     
     // write parsed content
     writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
@@ -45,8 +45,8 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
 }
 
-function removeMdHeaders(mdFileStr: string) {
+function removeMdHeader(mdFileStr: string) {
     return mdFileStr.split('\n')
-        .filter(mdLine => !mdLine.startsWith('#'))
+        .filter(mdLine => !mdLine.startsWith('# '))
             .join('\n');
 }
