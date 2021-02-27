@@ -1,7 +1,7 @@
 {
   "name": "respec-kik-v-dev",
   "version": "0.1.0",
-  "description": "ResPec template compilet for Markdown Content application development in TypeScript",
+  "description": "ResPec template compiler for Markdown Content application development in TypeScript",
   "scripts": {
     "build": "npm run build:lib && npm run build:cli",
     "build:cli": "tsc -p ts-cli-config.json",
