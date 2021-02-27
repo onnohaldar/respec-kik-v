@@ -46,8 +46,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     let hasConformance = false;
 
     for (const summaryLine of summaryLines) {
-        console.log(summaryLine);
-        
+        sections += parseSection(summaryLine);
     }
 
     console.log(sections);
@@ -66,7 +65,7 @@ function removeMdHeader(mdFileStr: string) {
             .join('\n');
 }
 
-function parseSection(summaryLine) {
+function parseSection(summaryLine: string) {
     let sectionLevel = 2;
     let summaryLineIndent = SUMMARY_IDENT;
 
