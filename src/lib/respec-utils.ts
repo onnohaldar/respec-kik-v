@@ -56,30 +56,30 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     let lineNr = 0;
 
     for (const summaryLine of summaryLines) {
+        // extract data from content
+        const sectionLevel = extractSectionLevel(summaryLine);
+        const sectionId = extractSectionId(summaryLine);
+        const dataInclude = extractDataInclude(summaryLine);
         // generate new HTML section
-        sections += parseSection(summaryLine);
+        sections += parseSection(sectionLevel, sectionId, dataInclude);
         // read Mark Down Content from input directory
-        const mdContentFilePath = extractDataInclude(summaryLine);
-        let mdContentStr = readFileSync(join(mdContentPath, mdContentFilePath), 'utf-8');
+        let mdContentStr = readFileSync(join(mdContentPath, dataInclude), 'utf-8');
 
         if (lineNr == 0 || lineNr == summaryLines.length - 1) {
             // Abstract and Conformance Mark Dow must be without Headers (already supplied by ResPec)
-            mdContent = removeMdHeader(mdContent);
+            mdContentStr = removeMdHeader(mdContentStr);
         }
 
         // write Mark Down Content to output directory
-        writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
+        writeFileSync(join(resPecOutputPath, dataInclude), mdContentStr);
+        // increment line number
         lineNr ++;
     }
 
     console.log(sections);
     
-    // write parsed content
-    writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
-    writeFileSync(join(resPecOutputPath, CONFORMANCE_MD), parsedConformanceStr);
+    // write parsed content in template to output directory
     writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr);
-
-
 }
 
 function removeMdHeader(mdFileStr: string) {
