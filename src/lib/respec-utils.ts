@@ -75,15 +75,23 @@ function parseSection(summaryLine: string) {
     }
 
     // Mark Down link description is between [...]
-    const sectionId = summaryLine.split('[')[1].split(']')[0];
+    const sectionId = extractSectionId(summaryLine);
     // Mark Down reference link is between (...)
-    const dataInclude = summaryLine.split('(')[1].split(')')[0];
+    const dataInclude = extractDataInclude(summaryLine);
 
     // Parse Mark Down Values in HTML Template String
     return `
-    <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
+    <section id="${extractSectionId(summaryLine)}" data-format="markdown" data-include="${extractDataInclude(summaryLine)}">
         <h${sectionLevel}></h${sectionLevel}>
         <! -- Section Genereated by ResPecMd CLI see https://github.com/onnohaldar/respec-tools -->
     </section>
     `;
+}
+
+function extractSectionId(summaryLine: string) {
+    return summaryLine.split('[')[1].split(']')[0].toLowerCase();
+}
+
+function extractDataInclude(summaryLine: string) {
+    return summaryLine.split('(')[1].split(')')[0];
 }
