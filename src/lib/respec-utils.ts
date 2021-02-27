@@ -45,12 +45,6 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         throw new Error('ResPecMd CLI - SUMMARY.md must end with a "* [Conformance](file path to CONFORMANCE.md)" Section!');
     }
 
-    // remove headers from abstract and conformance (already supplied by ResPec)
-    const abstractMdStr = readFileSync(join(mdContentPath, extractDataInclude(summaryLines[abstractLineNr])), 'utf-8');
-    const conformanceMdStr = readFileSync(join(mdContentPath, CONFORMANCE_MD), 'utf-8');
-    const parsedAbstractStr = removeMdHeader(abstractMdStr);
-    const parsedConformanceStr = removeMdHeader(conformanceMdStr);
-
     // assemble (sub)sections from summary
     // and process ResPec requirements for Mark Down content
     let sectionsHtml = '';
@@ -77,10 +71,10 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         summaryLineNr ++;
     }
 
-    console.log(sections);
+    console.log(sectionsHtml);
     
     // write parsed content in template to output directory
-    writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr);
+    writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr.replace());
 }
 
 function removeMdHeader(mdFileStr: string) {
