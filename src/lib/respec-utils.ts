@@ -28,14 +28,7 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     let parsedHtmlIndexStr = readFileSync(outputHtmlIndexFilePath, 'utf-8');
 
     // read content to parse
-    const abstractMdStr = readFileSync(join(mdContentPath, ABSTRACT_MD), 'utf-8');
-    const conformanceMdStr = readFileSync(join(mdContentPath, CONFORMANCE_MD), 'utf-8');
     const summaryMdStr = readFileSync(join(mdContentPath, SUMMARY_MD), 'utf-8');
-
-    // parse content
-    // remove header from abstract
-    const parsedAbstractStr = removeMdHeader(abstractMdStr);
-    const parsedConformanceStr = removeMdHeader(conformanceMdStr);
 
     // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
@@ -52,11 +45,31 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
         throw new Error('ResPecMd CLI - SUMMARY.md must end with a "* [Conformance](file path to CONFORMANCE.md)" Section!');
     }
 
+    // remove headers from abstract and conformance (already supplied by ResPec)
+    const abstractMdStr = readFileSync(join(mdContentPath, extractDataInclude(summaryLines[abstractLineNr])), 'utf-8');
+    const conformanceMdStr = readFileSync(join(mdContentPath, CONFORMANCE_MD), 'utf-8');
+    const parsedAbstractStr = removeMdHeader(abstractMdStr);
+    const parsedConformanceStr = removeMdHeader(conformanceMdStr);
+
     // assamble string with (sub)sections
     let sections = '';
+    let lineNr = 0;
 
     for (const summaryLine of summaryLines) {
+        // generate new HTML section
         sections += parseSection(summaryLine);
+        // read Mark Down Content from input directory
+        const mdContentFilePath = extractDataInclude(summaryLine);
+        let mdContentStr = readFileSync(join(mdContentPath, mdContentFilePath), 'utf-8');
+
+        if (lineNr == 0 || lineNr == summaryLines.length - 1) {
+            // Abstract and Conformance Mark Dow must be without Headers (already supplied by ResPec)
+            mdContent = removeMdHeader(mdContent);
+        }
+
+        // write Mark Down Content to output directory
+        writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
+        lineNr ++;
     }
 
     console.log(sections);
@@ -75,7 +88,17 @@ function removeMdHeader(mdFileStr: string) {
             .join('\n');
 }
 
-function parseSection(summaryLine: string) {
+function parseSection(sectionLevel: number, sectionId: string, dataInclude: string) {
+    // Parse Mark Down Values in HTML Template String
+    return `
+    <section id="${sectionId}" data-format="markdown" data-include="${dataInclude}">
+        <h${sectionLevel}></h${sectionLevel}>
+        <! -- Section Genereated by ResPecMd CLI see https://github.com/onnohaldar/respec-tools -->
+    </section>
+    `;
+}
+
+function extractSectionLevel(summaryLine: string) {
     // calculate section level
     let sectionLevel = 2;
     const levelIdentSpace = ' '.repeat(IDENT_NR);
@@ -86,13 +109,7 @@ function parseSection(summaryLine: string) {
             summaryLineIndent += levelIdentSpace;
     }
 
-    // Parse Mark Down Values in HTML Template String
-    return `
-    <section id="${extractSectionId(summaryLine)}" data-format="markdown" data-include="${extractDataInclude(summaryLine)}">
-        <h${sectionLevel}></h${sectionLevel}>
-        <! -- Section Genereated by ResPecMd CLI see https://github.com/onnohaldar/respec-tools -->
-    </section>
-    `;
+    return sectionLevel;
 }
 
 function extractSectionId(summaryLine: string) {
