@@ -40,13 +40,17 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
     // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
 
+    // check ResPec first section requirements
     const abstractLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'abstract');
-    if (abstractLineNr == -1) {
-        throw new Error('ResPec - SUMMARY.md must start with a "* [Abstract](file path to ABSTRACT.md)" Section!');
+    if (abstractLineNr != 0) {
+        throw new Error('ResPecMd CLI - SUMMARY.md must start with a "* [Abstract](file path to ABSTRACT.md)" Section!');
     }
 
+    // check ResPec last section requirements
     const conformanceLineNr = summaryLines.findIndex(mdLine => extractSectionId(mdLine) == 'conformance');
-    console.log('conformanceLineNr', conformanceLineNr);
+    if (conformanceLineNr != summaryLines.length - 1) {
+        throw new Error('ResPecMd CLI - SUMMARY.md must end with a "* [Conformance](file path to CONFORMANCE.md)" Section!');
+    }
 
     // assamble string with (sub)sections
     let sections = '';
