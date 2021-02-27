@@ -7,7 +7,7 @@
  */
 import { readFileSync, writeFileSync } from 'fs';
 //const jdown = require('jdown');
-import jdown from 'jdown';
+import jdown from '';
 import { copySync } from 'cpx';
 
 /**
