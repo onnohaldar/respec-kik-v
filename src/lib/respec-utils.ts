@@ -17,15 +17,16 @@ const SUMMARY_MD = 'SUMMARY.md';
 const MD_SECTIONS_TEMPLATE = '<=% mdSections %>';
 
 export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string, resPecOutputPath: string) {
-    // init ResPec output with template to parse
+    // init ResPec output with template and content to parse
     copySync(`${resPecTemplatePath}/**/*`, resPecOutputPath);
+    copySync(`${mdContentPath}/**/*`, resPecOutputPath);
     
     // read template to parse
     const outputHtmlIndexFilePath = join(resPecOutputPath, 'index.html');
     let parsedHtmlIndexStr = readFileSync(outputHtmlIndexFilePath, 'utf-8');
 
     // read content to parse
-    const summaryMdStr = readFileSync(join(mdContentPath, SUMMARY_MD), 'utf-8');
+    const summaryMdStr = readFileSync(join(resPecOutputPath, SUMMARY_MD), 'utf-8');
 
     // initialize list with summary lines (all lines that start with * or spaces and *)
     const summaryLines = summaryMdStr.split('\n').filter(mdLine => mdLine.trimStart().startsWith('*'));
