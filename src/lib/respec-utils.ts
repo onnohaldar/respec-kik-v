@@ -33,14 +33,20 @@ export function parseMd2ResPec(resPecTemplatePath: string, mdContentPath: string
 
     // parse content
     // remove header from abstract
-    const parsedAbstractStr = abstractMdStr
-        .split('\n')
-            .filter(mdLine => !mdLine.startsWith('#'))
-                .join('\n');
+    const parsedAbstractStr = removeMdHeaders(abstractMdStr);
 
+    const parsedConformanceStr = removeMdHeaders(conformanceMdStr);
+    
     // write parsed content
     writeFileSync(join(resPecOutputPath, ABSTRACT_MD), parsedAbstractStr);
+    writeFileSync(join(resPecOutputPath, CONFORMANCE_MD), parsedConformanceStr);
     writeFileSync(outputHtmlIndexFilePath, parsedHtmlIndexStr);
 
 
+}
+
+function removeMdHeaders(mdFileStr: string) {
+    return mdFileStr.split('\n')
+        .filter(mdLine => !mdLine.startsWith('#'))
+            .join('\n');
 }
