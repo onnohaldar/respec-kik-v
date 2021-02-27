@@ -5,7 +5,7 @@
 /**
  * Node Package Imports
  */
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 //import { default as marked } from 'marked';
 import { copySync } from 'cpx';
