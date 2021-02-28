@@ -26,7 +26,7 @@
     "build": "npm run build:lib && npm run build:cli",
     "build:cli": "tsc -p ts-cli-config.json",
     "build:lib": "rollup -c",
-    "test": "ts-node -P src/ts-node-config.json src/bin/respecmd-cli.ts test-input/template test-input/content test-output"
+    "test": "ts-node -P ts-node-config.json src/bin/respecmd-cli.ts test-input/template test-input/content test-output"
   },
   "devDependencies": {
     "@types/cpx": "^1.5.1",
